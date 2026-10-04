@@ -1,0 +1,140 @@
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #080b10;
+  --page-glow: rgb(31 63 76 / 35%);
+  --sidebar-bg: #0b1017;
+  --surface-1: #10151d;
+  --surface-2: #151c26;
+  --surface-elevated: #18212c;
+  --surface-input: #080d13;
+  --text-strong: #f4f8fb;
+  --text-default: #dbe5eb;
+  --text-muted: #8e9aa7;
+  --text-faint: #667582;
+  --border-subtle: #28323f;
+  --border-strong: #3a4958;
+  --accent-primary: #67e8f9;
+  --accent-primary-soft: rgb(103 232 249 / 10%);
+  --accent-primary-border: rgb(103 232 249 / 45%);
+  --accent-secondary: #d9ba73;
+  --accent-secondary-soft: rgb(217 186 115 / 8%);
+  --accent-secondary-border: rgb(217 186 115 / 36%);
+  --positive: #75e6a4;
+  --warning: #e7c97f;
+  --warning-soft: rgb(217 186 115 / 7%);
+  --warning-border: rgb(217 186 115 / 32%);
+  --negative: #f47b72;
+  --negative-soft: rgb(95 30 29 / 30%);
+  --negative-border: rgb(244 114 106 / 45%);
+  --shadow-panel: 0 22px 60px rgb(0 0 0 / 18%);
+  --chart-grid: #2b3744;
+  --chart-axis: #3a4958;
+  --chart-label: #8e9aa7;
+  --chart-tooltip: #0b1118;
+  --chart-series-neutral: #6f8394;
+  --panel-gradient: linear-gradient(145deg, rgb(24 32 43 / 94%), rgb(11 15 21 / 96%));
+  --surface-translucent: rgb(4 8 12 / 46%);
+  --focus-ring: rgb(103 232 249 / 8%);
+  --curtain-color: #eef3f5;
+  --surface: var(--surface-1);
+  --surface-raised: var(--surface-2);
+  --line: var(--border-subtle);
+  --muted: var(--text-muted);
+  --cyan: var(--accent-primary);
+  --gold: var(--accent-secondary);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: #eef3f5;
+  --page-glow: rgb(33 126 143 / 12%);
+  --sidebar-bg: #e4ebee;
+  --surface-1: #f8fbfc;
+  --surface-2: #edf3f5;
+  --surface-elevated: #ffffff;
+  --surface-input: #ffffff;
+  --text-strong: #101a22;
+  --text-default: #263640;
+  --text-muted: #657680;
+  --text-faint: #82919a;
+  --border-subtle: #cbd6db;
+  --border-strong: #aebdc5;
+  --accent-primary: #087e94;
+  --accent-primary-soft: rgb(8 126 148 / 10%);
+  --accent-primary-border: rgb(8 126 148 / 40%);
+  --accent-secondary: #8a6720;
+  --accent-secondary-soft: rgb(138 103 32 / 8%);
+  --accent-secondary-border: rgb(138 103 32 / 36%);
+  --positive: #187948;
+  --warning: #8d6415;
+  --warning-soft: rgb(141 100 21 / 8%);
+  --warning-border: rgb(141 100 21 / 30%);
+  --negative: #b53831;
+  --negative-soft: rgb(181 56 49 / 8%);
+  --negative-border: rgb(181 56 49 / 34%);
+  --shadow-panel: 0 20px 50px rgb(43 66 78 / 10%);
+  --chart-grid: #d4dee2;
+  --chart-axis: #aebdc5;
+  --chart-label: #657680;
+  --chart-tooltip: #ffffff;
+  --chart-series-neutral: #5f7482;
+  --panel-gradient: linear-gradient(145deg, rgb(255 255 255 / 96%), rgb(240 246 248 / 98%));
+  --surface-translucent: rgb(255 255 255 / 62%);
+  --focus-ring: rgb(8 126 148 / 10%);
+  --curtain-color: #080b10;
+}
+
+::view-transition-old(root) {
+  animation: none;
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 650ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  clip-path: circle(var(--theme-reveal-radius) at var(--theme-origin-x) var(--theme-origin-y));
+  z-index: 1;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-origin-x) var(--theme-origin-y));
+  }
+  to {
+    clip-path: circle(var(--theme-reveal-radius) at var(--theme-origin-x) var(--theme-origin-y));
+  }
+}
+
+.theme-curtain {
+  position: fixed;
+  z-index: 9999;
+  width: calc(var(--curtain-radius) * 2);
+  height: calc(var(--curtain-radius) * 2);
+  border-radius: 50%;
+  pointer-events: none;
+  background: var(--curtain-color);
+  transform: translate(-50%, -50%) scale(0);
+  animation: theme-curtain-expand 650ms cubic-bezier(0.2, 0.75, 0.2, 1) forwards;
+}
+
+.theme-curtain[data-theme="dark"] {
+  background: #080b10;
+}
+
+.theme-curtain[data-theme="light"] {
+  background: #eef3f5;
+}
+
+@keyframes theme-curtain-expand {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  .theme-curtain {
+    animation-duration: 1ms !important;
+  }
+}

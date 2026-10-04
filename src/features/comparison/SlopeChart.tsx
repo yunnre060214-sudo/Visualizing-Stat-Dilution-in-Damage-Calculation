@@ -2,9 +2,9 @@ import type { BuildComparisonResult } from "../../domain/types";
 import styles from "./BuildComparison.module.css";
 
 const rows = [
-  { key: "nonCrit", label: "未暴击", color: "#6f8394" },
-  { key: "crit", label: "暴击", color: "#d9ba73" },
-  { key: "expected", label: "期望", color: "#67e8f9" },
+  { key: "nonCrit", label: "未暴击", color: "var(--chart-series-neutral)" },
+  { key: "crit", label: "暴击", color: "var(--accent-secondary)" },
+  { key: "expected", label: "期望", color: "var(--accent-primary)" },
 ] as const;
 
 export function SlopeChart({ result }: { result: BuildComparisonResult | null }) {
@@ -31,7 +31,7 @@ export function SlopeChart({ result }: { result: BuildComparisonResult | null })
           const metric = result[key];
           return (
             <g key={key}>
-              <line stroke={color} strokeWidth={key === "expected" ? 3 : 1.5} x1="112" x2="408" y1={y(metric.a)} y2={y(metric.b)} />
+              <line data-series={key} stroke={color} strokeWidth={key === "expected" ? 3 : 1.5} x1="112" x2="408" y1={y(metric.a)} y2={y(metric.b)} />
               <circle cx="112" cy={y(metric.a)} fill={color} r={key === "expected" ? 5 : 3.5} />
               <circle cx="408" cy={y(metric.b)} fill={color} r={key === "expected" ? 5 : 3.5} />
               <text className={styles.chartLabel} x="100" y={y(metric.a) + 4} textAnchor="end">{label} {Math.floor(metric.a).toLocaleString("zh-CN")}</text>

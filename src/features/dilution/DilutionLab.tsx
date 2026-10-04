@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { WorkspaceFrame } from "../../app/WorkspaceFrame";
 import type { BudgetDefinition } from "../../domain/types";
 import {
   MEDIAN_SUBSTAT_BUDGET,
@@ -21,6 +22,12 @@ const fieldDefinitions: Array<{ key: EditableKey; label: string; minimum: number
   { key: "critDamage", label: "当前暴击伤害", minimum: 100 },
   { key: "damageBonus", label: "当前伤害加成", minimum: -99 },
   { key: "deepen", label: "当前伤害加深", minimum: -99 },
+];
+
+const fieldGroups: Array<{ label: string; keys: EditableKey[] }> = [
+  { label: "攻击区", keys: ["atkPercent"] },
+  { label: "暴击区", keys: ["critRate", "critDamage"] },
+  { label: "增伤区", keys: ["damageBonus", "deepen"] },
 ];
 
 export function DilutionLab() {
@@ -50,72 +57,81 @@ export function DilutionLab() {
 
   if (result === null) {
     return (
-      <div className={styles.lab}>
-        <header className={styles.hero}>
-          <div><p className={styles.kicker}>STAT DILUTION / CURRENT BUILD</p><h2>词条稀释实验室</h2></div>
-        </header>
+      <WorkspaceFrame
+        description={<p>先修正伤害工作台中的失效引用，实验室随后会自动恢复。</p>}
+        kicker="STAT DILUTION / CURRENT BUILD"
+        result={<p className={styles.invalidNotice}>暂无可计算结论</p>}
+        resultLabel="词条结论"
+        title="词条稀释实验室"
+      >
         <p className={styles.invalidNotice} role="alert">{resolved.issues.join("；")}</p>
-      </div>
+      </WorkspaceFrame>
     );
   }
 
-  return (
-    <div className={styles.lab}>
-      <header className={styles.hero}>
-        <div>
-          <p className={styles.kicker}>STAT DILUTION / LIVE COUNTERFACTUAL</p>
-          <h2>词条稀释实验室</h2>
-        </div>
-        <p>曲线直接复制伤害工作台的当前角色、武器、动作、目标与面板，再加入同一预算重跑完整公式。</p>
-      </header>
+  const resultRail = (
+    <div className={styles.resultColumn}>
+      <div className={styles.baselineCard}>
+        <span>当前期望伤害</span>
+        <strong>{Math.floor(result.baselineDamage).toLocaleString("zh-CN")}</strong>
+        <small>作为所有边际收益的固定分母</small>
+      </div>
+      <MarginalRanking budget={budget} result={result} />
+    </div>
+  );
 
+  return (
+    <WorkspaceFrame
+      description={<p>复制当前工作台配置，在相同预算下重跑完整伤害公式，观察继续投入后的真实边际收益。</p>}
+      kicker="STAT DILUTION / LIVE COUNTERFACTUAL"
+      result={resultRail}
+      resultLabel="词条结论"
+      title="词条稀释实验室"
+    >
+      <div className={styles.lab}>
       <section className={styles.controls} aria-labelledby="dilution-controls-title">
         <div className={styles.controlsHeading}>
           <div>
             <p className={styles.kicker}>CURRENT BUILD / DENOMINATOR</p>
-            <h3 id="dilution-controls-title">当前配置与比较口径</h3>
+            <h2 id="dilution-controls-title">当前配置与比较口径</h2>
           </div>
-          <strong>{Math.floor(result.baselineDamage).toLocaleString("zh-CN")}<small> 当前期望伤害</small></strong>
         </div>
-        <div className={styles.controlGrid}>
-          {fieldDefinitions.map((field) => (
-            <label key={field.key}>
-              <span>{field.label}</span>
-              <span className={styles.numberInput}>
-                <input
-                  aria-label={field.label}
-                  inputMode="decimal"
-                  min={field.minimum}
-                  onChange={(event) => updateStat(field.key, field.minimum, event.target.value)}
-                  type="number"
-                  value={Number(state.buildA.panel[field.key])}
-                />
-                <b>%</b>
-              </span>
-            </label>
+        <div className={styles.statGroups}>
+          {fieldGroups.map((group) => (
+            <fieldset className={styles.statGroup} key={group.label}>
+              <legend>{group.label}</legend>
+              <div className={styles.controlGrid}>
+                {group.keys.map((key) => {
+                  const field = fieldDefinitions.find((entry) => entry.key === key)!;
+                  return (
+                    <label key={field.key}>
+                      <span>{field.label}</span>
+                      <span className={styles.numberInput}>
+                        <input
+                          aria-label={field.label}
+                          inputMode="decimal"
+                          min={field.minimum}
+                          onChange={(event) => updateStat(field.key, field.minimum, event.target.value)}
+                          type="number"
+                          value={Number(state.buildA.panel[field.key])}
+                        />
+                        <b>%</b>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
           ))}
-          <label>
-            <span>预算口径</span>
-            <select aria-label="预算口径" value={budget.id} onChange={(event) => setBudgetId(event.target.value)}>
-              {budgets.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
-            </select>
-          </label>
-          <label>
-            <span>纵轴</span>
-            <select aria-label="图表纵轴" value={metric} onChange={(event) => setMetric(event.target.value as ChartMetric)}>
-              <option value="relative">相对当前提升</option>
-              <option value="marginal">本单位边际提升</option>
-              <option value="damage">期望伤害</option>
-            </select>
-          </label>
+        </div>
+        <div className={styles.chartSettings}>
+          <label><span>预算口径</span><select aria-label="预算口径" value={budget.id} onChange={(event) => setBudgetId(event.target.value)}>{budgets.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}</select></label>
+          <label><span>纵轴</span><select aria-label="图表纵轴" value={metric} onChange={(event) => setMetric(event.target.value as ChartMetric)}><option value="relative">相对当前提升</option><option value="marginal">本单位边际提升</option><option value="damage">期望伤害</option></select></label>
         </div>
         <p className={styles.budgetSource}>{result.sourceBudgetLabel}</p>
       </section>
-
-      <div className={styles.analysisGrid}>
-        <DilutionChart metric={metric} result={result} />
-        <MarginalRanking budget={budget} result={result} />
+      <DilutionChart metric={metric} result={result} />
       </div>
-    </div>
+    </WorkspaceFrame>
   );
 }

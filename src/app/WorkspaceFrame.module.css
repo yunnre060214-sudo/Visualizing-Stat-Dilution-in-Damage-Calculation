@@ -1,0 +1,179 @@
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
+  gap: 20px;
+  align-items: start;
+  min-width: 0;
+}
+
+.workspaceHeader {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  min-width: 0;
+  padding: 4px 2px 10px;
+}
+
+.workspaceHeader p {
+  margin: 0 0 7px;
+  color: var(--accent-primary);
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.17em;
+}
+
+.workspaceHeader h1 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(30px, 4vw, 54px);
+  font-weight: 440;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.description {
+  max-width: 440px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+.taskArea {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.resultSlot {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.resultRail {
+  position: sticky;
+  top: 28px;
+  min-width: 0;
+}
+
+.mobileResult {
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-panel);
+}
+
+.mobileResult > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 13px;
+  border: 0;
+  color: var(--text-default);
+  background: transparent;
+  text-align: left;
+}
+
+.mobileResult > button > span:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.mobileResult small {
+  color: var(--accent-primary);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.mobileResult strong {
+  color: var(--text-strong);
+  font-size: 13px;
+}
+
+.mobileResult b {
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 550;
+}
+
+.mobileResult > div {
+  padding: 0 12px 12px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 760px) and (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .workspaceHeader,
+  .taskArea,
+  .resultSlot {
+    grid-column: 1;
+  }
+
+  .resultSlot {
+    grid-row: 2;
+  }
+
+  .taskArea {
+    grid-row: 3;
+  }
+
+  .resultRail {
+    position: static;
+  }
+}
+
+@media (max-width: 759px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .workspaceHeader,
+  .taskArea,
+  .resultSlot {
+    grid-column: 1;
+  }
+
+  .resultSlot {
+    grid-row: 2;
+  }
+
+  .taskArea {
+    grid-row: 3;
+  }
+
+  .workspaceHeader {
+    display: grid;
+    gap: 10px;
+    padding-top: 0;
+  }
+
+  .workspaceHeader h1 {
+    font-size: clamp(28px, 9vw, 42px);
+  }
+
+  .description {
+    font-size: 11px;
+  }
+
+}

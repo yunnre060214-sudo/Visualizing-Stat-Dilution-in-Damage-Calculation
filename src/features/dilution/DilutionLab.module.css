@@ -6,9 +6,9 @@
 .invalidNotice {
   margin: 0;
   padding: 14px 16px;
-  border: 1px solid rgb(244 114 106 / 45%);
-  color: #ffc1ba;
-  background: rgb(95 30 29 / 30%);
+  border: 1px solid var(--negative-border);
+  color: var(--negative);
+  background: var(--negative-soft);
   font-size: 12px;
 }
 
@@ -29,14 +29,14 @@
 .hero > p {
   max-width: 490px;
   margin: 0 0 6px;
-  color: #8997a3;
+  color: var(--text-muted);
   font-size: 12px;
   line-height: 1.75;
 }
 
 .kicker {
   margin: 0 0 7px;
-  color: var(--cyan);
+  color: var(--accent-primary);
   font-size: 9px;
   font-weight: 750;
   letter-spacing: 0.17em;
@@ -45,9 +45,9 @@
 .controls,
 .chartPanel,
 .ranking {
-  border: 1px solid var(--line);
-  background: linear-gradient(145deg, rgb(24 32 43 / 94%), rgb(11 15 21 / 96%));
-  box-shadow: 0 22px 60px rgb(0 0 0 / 16%);
+  border: 1px solid var(--border-subtle);
+  background: var(--panel-gradient);
+  box-shadow: var(--shadow-panel);
 }
 
 .controls {
@@ -62,33 +62,55 @@
   gap: 18px;
 }
 
-.controlsHeading h3,
+.controlsHeading h2,
 .sectionHeading h2 {
   margin: 0;
-  color: #e0e8ed;
+  color: var(--text-strong);
   font-size: 17px;
   font-weight: 570;
   letter-spacing: -0.02em;
 }
 
 .controlsHeading > strong {
-  color: #f4f8fb;
+  color: var(--text-strong);
   font-size: 23px;
   font-weight: 480;
   font-variant-numeric: tabular-nums;
 }
 
 .controlsHeading > strong small {
-  color: #667582;
+  color: var(--text-faint);
   font-size: 9px;
   font-weight: 500;
 }
 
+.statGroups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.statGroup {
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-2);
+}
+
+.statGroup legend {
+  padding: 0 6px;
+  color: var(--accent-primary);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
 .controlGrid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
   gap: 9px;
-  margin-top: 18px;
 }
 
 .controlGrid label {
@@ -98,7 +120,7 @@
 }
 
 .controlGrid label > span:first-child {
-  color: #788691;
+  color: var(--text-muted);
   font-size: 9px;
   letter-spacing: 0.04em;
 }
@@ -107,14 +129,14 @@
   display: flex;
   align-items: center;
   height: 39px;
-  border: 1px solid #33404e;
-  background: #080d13;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-input);
 }
 
 .numberInput:focus-within,
-.controlGrid select:focus-visible {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgb(103 232 249 / 8%);
+.chartSettings select:focus-visible {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .numberInput input {
@@ -123,7 +145,7 @@
   padding: 8px 4px 8px 10px;
   border: 0;
   outline: 0;
-  color: #e8eff3;
+  color: var(--text-strong);
   background: transparent;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
@@ -131,27 +153,71 @@
 
 .numberInput b {
   padding-right: 9px;
-  color: #64737f;
+  color: var(--text-faint);
   font-size: 9px;
   font-weight: 500;
 }
 
-.controlGrid select {
+.chartSettings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 240px));
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.chartSettings label {
+  display: grid;
+  gap: 6px;
+}
+
+.chartSettings label > span {
+  color: var(--text-muted);
+  font-size: 9px;
+}
+
+.chartSettings select {
   width: 100%;
   min-width: 0;
   height: 39px;
   padding: 0 8px;
-  border: 1px solid #33404e;
+  border: 1px solid var(--border-strong);
   border-radius: 0;
   outline: 0;
-  color: #dbe4ea;
-  background: #080d13;
+  color: var(--text-default);
+  background: var(--surface-input);
   font-size: 10px;
+}
+
+.resultColumn {
+  display: grid;
+  gap: 12px;
+}
+
+.baselineCard {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-panel);
+}
+
+.baselineCard span,
+.baselineCard small {
+  color: var(--text-muted);
+  font-size: 9px;
+}
+
+.baselineCard strong {
+  color: var(--text-strong);
+  font-size: 30px;
+  font-weight: 480;
+  font-variant-numeric: tabular-nums;
 }
 
 .budgetSource {
   margin: 10px 0 0;
-  color: #667582;
+  color: var(--text-faint);
   font-size: 9px;
 }
 
@@ -171,7 +237,7 @@
 
 .sectionHeading > span {
   padding-top: 3px;
-  color: #71808c;
+  color: var(--text-muted);
   font-size: 9px;
 }
 
@@ -196,14 +262,14 @@
 
 .chartAnnotations span {
   padding: 5px 7px;
-  border: 1px solid #2e3a47;
-  color: #81909c;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
   font-size: 9px;
 }
 
 .denominator {
   margin: 15px 0 18px;
-  color: #70808d;
+  color: var(--text-muted);
   font-size: 10px;
   line-height: 1.6;
 }
@@ -224,17 +290,17 @@
   align-items: center;
   min-height: 58px;
   padding: 9px 10px;
-  border: 1px solid #2c3743;
-  background: rgb(5 9 13 / 42%);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-translucent);
 }
 
 .rankList li[data-best] {
-  border-color: rgb(103 232 249 / 48%);
-  background: linear-gradient(90deg, rgb(103 232 249 / 8%), transparent);
+  border-color: var(--accent-primary-border);
+  background: linear-gradient(90deg, var(--accent-primary-soft), transparent);
 }
 
 .rankIndex {
-  color: #4f5f6d;
+  color: var(--text-faint);
   font-size: 9px;
   letter-spacing: 0.08em;
 }
@@ -247,14 +313,14 @@
 
 .rankName strong,
 .rankValue strong {
-  color: #dce6ec;
+  color: var(--text-default);
   font-size: 11px;
   font-weight: 600;
 }
 
 .rankName small,
 .rankValue small {
-  color: #647480;
+  color: var(--text-faint);
   font-size: 8px;
 }
 
@@ -264,14 +330,14 @@
 }
 
 .rankList li[data-best] .rankValue strong {
-  color: var(--cyan);
+  color: var(--accent-primary);
 }
 
 .overflow {
   position: absolute;
   right: 8px;
   bottom: 4px;
-  color: #f1c978;
+  color: var(--warning);
   font-size: 8px;
 }
 
@@ -279,16 +345,12 @@
   margin: 18px 0 0;
   padding-top: 14px;
   border-top: 1px solid var(--line);
-  color: #60707d;
+  color: var(--text-faint);
   font-size: 9px;
 }
 
 @media (max-width: 1180px) {
-  .controlGrid {
-    grid-template-columns: repeat(4, minmax(120px, 1fr));
-  }
-
-  .analysisGrid {
+  .statGroups {
     grid-template-columns: 1fr;
   }
 }
@@ -299,8 +361,8 @@
     gap: 12px;
   }
 
-  .controlGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .chartSettings {
+    grid-template-columns: 1fr;
   }
 
   .chartPanel,

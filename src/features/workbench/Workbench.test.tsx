@@ -13,6 +13,36 @@ describe("Workbench", () => {
     vi.restoreAllMocks();
   });
 
+  it("separates core configuration, panel input, analysis, and persistent results", () => {
+    render(<Workbench />);
+
+    expect(screen.getByRole("heading", { name: "基础配置" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "面板参数" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "详细分析" })).toBeVisible();
+    const resultRail = screen.getByRole("complementary", { name: "伤害结果" });
+    expect(resultRail).toContainElement(screen.getByTestId("expected-damage"));
+    expect(resultRail).toContainElement(screen.getByTestId("non-crit-damage"));
+    expect(resultRail).toContainElement(screen.getByTestId("crit-damage"));
+  });
+
+  it("shows one analysis tab at a time without changing the build", async () => {
+    const user = userEvent.setup();
+    render(<Workbench />);
+    const initialDamage = screen.getByTestId("expected-damage").textContent;
+
+    expect(screen.getByRole("tab", { name: "乘区追踪" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("heading", { name: "乘区追踪" })).toBeVisible();
+    expect(screen.queryByRole("heading", { name: "Buff 来源" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("tab", { name: "Buff 来源" }));
+
+    expect(screen.getByRole("tab", { name: "Buff 来源" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("heading", { name: "Buff 来源" })).toBeVisible();
+    expect(screen.queryByRole("heading", { name: "乘区追踪" })).not.toBeInTheDocument();
+    expect(screen.getByLabelText("面板攻击")).toHaveValue("1000");
+    expect(screen.getByTestId("expected-damage")).toHaveTextContent(initialDamage ?? "");
+  });
+
   it("updates all three damage results when attack changes", async () => {
     const user = userEvent.setup();
     render(<Workbench />);
@@ -97,6 +127,7 @@ describe("Workbench", () => {
     expect(screen.getByLabelText("面板攻击")).toHaveValue("-");
     expect(screen.getByRole("alert")).toHaveTextContent("请输入有限数值");
     expect(screen.getByTestId("expected-damage")).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByRole("complementary", { name: "伤害结果" })).toHaveTextContent("单次伤害演算");
   });
 
   it("rejects total critical damage below 100 percent and does not persist it", async () => {

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { WorkspaceFrame } from "../../app/WorkspaceFrame";
 import type { NormalizedAction } from "../../data/types";
 import { compareBuilds } from "../../engine/comparison";
 import { usePersistedState } from "../../store/PersistedStateProvider";
@@ -74,6 +75,7 @@ function BuildEditor({
   onTarget,
   onPanel,
 }: BuildEditorProps) {
+  const [section, setSection] = useState<"catalog" | "panel">("catalog");
   const character = characterById(build.characterId);
   const weapon = weaponById(build.weaponId);
   const weapons = compatibleWeapons(character);
@@ -108,7 +110,12 @@ function BuildEditor({
         </p>
       )}
 
-      <div className={styles.catalogGrid}>
+      <div aria-label={`${label} 编辑区域`} className={styles.editorTabs} role="tablist">
+        <button aria-selected={section === "catalog"} onClick={() => setSection("catalog")} role="tab" type="button">{label} 目录选择</button>
+        <button aria-selected={section === "panel"} onClick={() => setSection("panel")} role="tab" type="button">{label} 面板参数</button>
+      </div>
+
+      {section === "catalog" && <div className={styles.catalogGrid} role="tabpanel">
         <label>
           <span>{label} 角色</span>
           <select aria-label={`${label} 角色`} value={build.characterId} onChange={(event) => onCharacter(event.target.value)}>
@@ -153,9 +160,9 @@ function BuildEditor({
             ))}
           </select>
         </label>
-      </div>
+      </div>}
 
-      <div className={styles.panelGrid}>
+      {section === "panel" && <div className={styles.panelGrid} role="tabpanel">
         {panelFields.map((field) => {
           const disabled = disabledFields.includes(field.key);
           return (
@@ -174,7 +181,7 @@ function BuildEditor({
             </label>
           );
         })}
-      </div>
+      </div>}
       {weapon && <p className={styles.weaponNote}>武器基础攻击与副属性已计入；{weapon.effect.name} 需在 Buff 区手动建模。</p>}
     </section>
   );
@@ -183,6 +190,7 @@ function BuildEditor({
 export function BuildComparison({ initialState }: { initialState?: PersistedStateV2 }) {
   const { notice, setNotice, setState, state } = usePersistedState(initialState);
   const [jsonText, setJsonText] = useState("");
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   const updateBuild = (
     side: BuildSide,
@@ -291,16 +299,30 @@ export function BuildComparison({ initialState }: { initialState?: PersistedStat
     setNotice("完整配置已导入");
   };
 
-  return (
-    <div className={styles.comparison}>
-      <header className={styles.hero}>
-        <div>
-          <p className={styles.kicker}>BUILD COMPARISON / SIGNED DELTA</p>
-          <h2>双方案伤害对比</h2>
-        </div>
-        <p>以方案 A 为基准，方案 B 的未暴击、暴击和期望伤害均显示有符号绝对差与相对差。</p>
-      </header>
+  const resultPanel = (
+    <section className={styles.resultPanel} aria-labelledby="comparison-result-title">
+      <div className={styles.resultHeading}>
+        <div><p className={styles.kicker}>RESULT / B MINUS A</p><h2 id="comparison-result-title">差值与斜率</h2></div>
+        <strong data-winner={comparison.result?.winner ?? "none"}>
+          {comparison.result?.winner === "b" ? "方案 B 领先" : comparison.result?.winner === "a" ? "方案 A 领先" : "两方案持平"}
+        </strong>
+      </div>
+      <div className={styles.resultGrid}>
+        <DeltaBars result={comparison.result} />
+        <SlopeChart result={comparison.result} />
+      </div>
+    </section>
+  );
 
+  return (
+    <WorkspaceFrame
+      description={<p>以方案 A 为基准，方案 B 的三类伤害同步显示绝对差、相对差与变化方向。</p>}
+      kicker="BUILD COMPARISON / SIGNED DELTA"
+      result={resultPanel}
+      resultLabel="对比结果"
+      title="双方案伤害对比"
+    >
+      <div className={styles.comparison}>
       <section className={styles.toolbar} aria-label="对比与分享设置">
         <div className={styles.linkControls}>
           <label>
@@ -328,21 +350,24 @@ export function BuildComparison({ initialState }: { initialState?: PersistedStat
             B 使用独立目标
           </label>
         </div>
+        <button aria-controls="comparison-tools" aria-expanded={toolsOpen} className={styles.toolsToggle} onClick={() => setToolsOpen((current) => !current)} type="button">配置工具</button>
+      </section>
+
+      {notice && <p className={styles.notice} role="status">{notice}</p>}
+      {toolsOpen && <section className={styles.toolsPanel} id="comparison-tools">
         <div className={styles.shareControls}>
           <button type="button" onClick={share}>生成分享链接</button>
           <button type="button" onClick={() => setJsonText(exportState(state))}>导出 JSON</button>
           <button type="button" onClick={restoreJson}>导入 JSON</button>
         </div>
-      </section>
-
-      {notice && <p className={styles.notice} role="status">{notice}</p>}
-      <textarea
-        aria-label="配置 JSON"
-        className={styles.jsonArea}
-        onChange={(event) => setJsonText(event.target.value)}
-        placeholder="导出完整配置，或粘贴备份后导入"
-        value={jsonText}
-      />
+        <textarea
+          aria-label="配置 JSON"
+          className={styles.jsonArea}
+          onChange={(event) => setJsonText(event.target.value)}
+          placeholder="导出完整配置，或粘贴备份后导入"
+          value={jsonText}
+        />
+      </section>}
 
       <div className={styles.buildGrid}>
         <BuildEditor
@@ -380,18 +405,7 @@ export function BuildComparison({ initialState }: { initialState?: PersistedStat
         />
       </div>
 
-      <section className={styles.resultPanel} aria-labelledby="comparison-result-title">
-        <div className={styles.resultHeading}>
-          <div><p className={styles.kicker}>RESULT / B MINUS A</p><h3 id="comparison-result-title">差值与斜率</h3></div>
-          <strong data-winner={comparison.result?.winner ?? "none"}>
-            {comparison.result?.winner === "b" ? "方案 B 领先" : comparison.result?.winner === "a" ? "方案 A 领先" : "两方案持平"}
-          </strong>
-        </div>
-        <div className={styles.resultGrid}>
-          <DeltaBars result={comparison.result} />
-          <SlopeChart result={comparison.result} />
-        </div>
-      </section>
-    </div>
+      </div>
+    </WorkspaceFrame>
   );
 }

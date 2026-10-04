@@ -9,6 +9,7 @@ import {
 import { init, use, type EChartsCoreOption } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import type { MarginalValueResult } from "../../domain/types";
+import { useTheme } from "../../theme/ThemeProvider";
 import styles from "./DilutionLab.module.css";
 
 use([LineChart, GridComponent, LegendComponent, MarkLineComponent, TooltipComponent, CanvasRenderer]);
@@ -37,6 +38,7 @@ function metricName(metric: ChartMetric): string {
 
 export function DilutionChart({ metric, result }: DilutionChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -45,6 +47,13 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
     const capPoint = result.candidates
       .find((candidate) => candidate.stat === "critRate")
       ?.curve.find((point) => point.overflowLoss > 0);
+    const rootStyle = getComputedStyle(document.documentElement);
+    const token = (name: string, fallback: string) => rootStyle.getPropertyValue(name).trim() || fallback;
+    const chartLabel = token("--chart-label", theme === "dark" ? "#8e9aa7" : "#657680");
+    const chartAxis = token("--chart-axis", theme === "dark" ? "#3a4958" : "#aebdc5");
+    const chartGrid = token("--chart-grid", theme === "dark" ? "#2b3744" : "#d4dee2");
+    const tooltip = token("--chart-tooltip", theme === "dark" ? "#0b1118" : "#ffffff");
+    const textStrong = token("--text-strong", theme === "dark" ? "#f4f8fb" : "#101a22");
     const chart = init(container, undefined, { renderer: "canvas" });
     const option: EChartsCoreOption = {
       animationDuration: 220,
@@ -52,15 +61,15 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
       grid: { left: 68, right: 28, top: 66, bottom: 52 },
       legend: {
         top: 8,
-        textStyle: { color: "#98a7b3", fontSize: 10 },
+        textStyle: { color: chartLabel, fontSize: 10 },
         itemWidth: 22,
         itemHeight: 3,
       },
       tooltip: {
         trigger: "axis",
-        backgroundColor: "#0b1118",
-        borderColor: "#334252",
-        textStyle: { color: "#e8eff3", fontSize: 11 },
+        backgroundColor: tooltip,
+        borderColor: chartAxis,
+        textStyle: { color: textStrong, fontSize: 11 },
         valueFormatter: (value: unknown) =>
           metric === "damage"
             ? Number(value).toLocaleString("zh-CN", { maximumFractionDigits: 0 })
@@ -74,21 +83,21 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
         name: "继续投入的预算单位",
         nameLocation: "middle",
         nameGap: 31,
-        nameTextStyle: { color: "#71808d", fontSize: 10 },
-        axisLabel: { color: "#71808d", fontSize: 9 },
-        axisLine: { lineStyle: { color: "#33404e" } },
-        splitLine: { lineStyle: { color: "rgba(51,64,78,.34)" } },
+        nameTextStyle: { color: chartLabel, fontSize: 10 },
+        axisLabel: { color: chartLabel, fontSize: 9 },
+        axisLine: { lineStyle: { color: chartAxis } },
+        splitLine: { lineStyle: { color: chartGrid, opacity: 0.55 } },
       },
       yAxis: {
         type: "value",
         name: metricName(metric),
-        nameTextStyle: { color: "#71808d", fontSize: 10, padding: [0, 0, 8, 0] },
+        nameTextStyle: { color: chartLabel, fontSize: 10, padding: [0, 0, 8, 0] },
         axisLabel: {
-          color: "#71808d",
+          color: chartLabel,
           fontSize: 9,
           formatter: metric === "damage" ? "{value}" : "{value}%",
         },
-        splitLine: { lineStyle: { color: "rgba(51,64,78,.48)" } },
+        splitLine: { lineStyle: { color: chartGrid, opacity: 0.72 } },
       },
       series: result.candidates.map((candidate, index) => ({
         name: candidate.label,
@@ -104,8 +113,8 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
           ? {
               silent: true,
               symbol: ["none", "none"],
-              label: { color: "#aab8c2", fontSize: 9, formatter: "{b}" },
-              lineStyle: { color: "#667785", type: "dashed", width: 1 },
+              label: { color: chartLabel, fontSize: 9, formatter: "{b}" },
+              lineStyle: { color: chartAxis, type: "dashed", width: 1 },
               data: [
                 { name: "当前", xAxis: 0 },
                 ...(firstCrossing ? [{ name: "首次交叉", xAxis: firstCrossing.budgetUnits }] : []),
@@ -130,7 +139,7 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
       window.removeEventListener("resize", resize);
       chart.dispose();
     };
-  }, [metric, result]);
+  }, [metric, result, theme]);
 
   const firstCrossing = result.crossings[0];
   const critCap = result.candidates
@@ -150,6 +159,7 @@ export function DilutionChart({ metric, result }: DilutionChartProps) {
         <div
           aria-label="词条投入边际收益曲线"
           className={styles.chart}
+          data-chart-theme={theme}
           ref={containerRef}
           role="img"
         />

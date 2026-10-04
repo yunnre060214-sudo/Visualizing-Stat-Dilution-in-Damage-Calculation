@@ -21,25 +21,26 @@
 .hero > p {
   max-width: 510px;
   margin: 0 0 6px;
-  color: #8997a3;
+  color: var(--text-muted);
   font-size: 12px;
   line-height: 1.75;
 }
 
 .kicker {
   margin: 0 0 7px;
-  color: var(--cyan);
+  color: var(--accent-primary);
   font-size: 9px;
   font-weight: 750;
   letter-spacing: 0.17em;
 }
 
 .toolbar,
+.toolsPanel,
 .buildCard,
 .resultPanel {
-  border: 1px solid var(--line);
-  background: linear-gradient(145deg, rgb(24 32 43 / 94%), rgb(11 15 21 / 96%));
-  box-shadow: 0 22px 60px rgb(0 0 0 / 16%);
+  border: 1px solid var(--border-subtle);
+  background: var(--panel-gradient);
+  box-shadow: var(--shadow-panel);
 }
 
 .toolbar {
@@ -48,6 +49,30 @@
   justify-content: space-between;
   gap: 20px;
   padding: 14px 18px;
+}
+
+.toolsToggle {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--border-strong);
+  color: var(--accent-primary);
+  background: var(--surface-2);
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.toolsToggle::after {
+  content: " +";
+}
+
+.toolsToggle[aria-expanded="true"]::after {
+  content: " −";
+}
+
+.toolsPanel {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
 }
 
 .linkControls,
@@ -61,39 +86,39 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #a5b1ba;
+  color: var(--text-muted);
   font-size: 10px;
 }
 
 .linkControls input {
-  accent-color: var(--cyan);
+  accent-color: var(--accent-primary);
 }
 
 .shareControls button {
   min-height: 34px;
   padding: 0 12px;
-  border: 1px solid #354453;
-  color: #cdd8df;
-  background: #0b1118;
+  border: 1px solid var(--border-strong);
+  color: var(--text-default);
+  background: var(--surface-input);
   cursor: pointer;
   font-size: 10px;
 }
 
 .shareControls button:first-child {
-  border-color: rgb(103 232 249 / 45%);
-  color: var(--cyan);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
 }
 
 .shareControls button:hover {
-  border-color: var(--cyan);
+  border-color: var(--accent-primary);
 }
 
 .notice,
 .referenceAlert {
   margin: 0;
-  border: 1px solid rgb(217 186 115 / 32%);
-  color: #d9c28b;
-  background: rgb(217 186 115 / 7%);
+  border: 1px solid var(--warning-border);
+  color: var(--warning);
+  background: var(--warning-soft);
   font-size: 10px;
 }
 
@@ -106,15 +131,15 @@
   min-height: 64px;
   resize: vertical;
   padding: 10px 12px;
-  border: 1px solid #2f3b47;
+  border: 1px solid var(--border-subtle);
   outline: 0;
-  color: #b9c7d0;
-  background: #070b10;
+  color: var(--text-default);
+  background: var(--surface-input);
   font: 10px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 .jsonArea:focus {
-  border-color: var(--cyan);
+  border-color: var(--accent-primary);
 }
 
 .buildGrid {
@@ -139,17 +164,17 @@
 }
 
 .cardHeader h3,
-.resultHeading h3 {
+.resultHeading h2 {
   margin: 0;
-  color: #e1e9ee;
+  color: var(--text-strong);
   font-size: 19px;
   font-weight: 560;
 }
 
 .cardHeader > span {
   padding: 5px 8px;
-  border: 1px solid #32404c;
-  color: #7c8b97;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
   font-size: 8px;
   letter-spacing: 0.08em;
 }
@@ -168,8 +193,32 @@
 }
 
 .referenceAlert code {
-  color: #8e9aa4;
+  color: var(--text-muted);
   font-size: 8px;
+}
+
+.editorTabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-2);
+}
+
+.editorTabs button {
+  min-height: 36px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.editorTabs button[aria-selected="true"] {
+  border-bottom-color: var(--accent-primary);
+  color: var(--text-strong);
+  background: var(--accent-primary-soft);
 }
 
 .catalogGrid,
@@ -184,9 +233,7 @@
 }
 
 .panelGrid {
-  grid-template-columns: repeat(5, minmax(72px, 1fr));
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
 }
 
 .catalogGrid label,
@@ -198,7 +245,7 @@
 
 .catalogGrid label > span:first-child,
 .panelGrid label > span:first-child {
-  color: #72808c;
+  color: var(--text-muted);
   font-size: 9px;
 }
 
@@ -207,23 +254,23 @@
   min-width: 0;
   height: 38px;
   padding: 0 9px;
-  border: 1px solid #33404e;
+  border: 1px solid var(--border-strong);
   border-radius: 0;
   outline: 0;
-  color: #d8e2e8;
-  background: #080d13;
+  color: var(--text-default);
+  background: var(--surface-input);
   font-size: 10px;
 }
 
 .catalogGrid select:disabled {
-  color: #667480;
+  color: var(--text-faint);
   opacity: 0.75;
 }
 
 .catalogGrid select:focus-visible,
 .inputShell:focus-within {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgb(103 232 249 / 8%);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .inputShell {
@@ -231,8 +278,8 @@
   align-items: center;
   min-width: 0;
   height: 38px;
-  border: 1px solid #33404e;
-  background: #080d13;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-input);
 }
 
 .inputShell input {
@@ -241,53 +288,53 @@
   padding: 8px;
   border: 0;
   outline: 0;
-  color: #edf3f6;
+  color: var(--text-strong);
   background: transparent;
   font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
 
 .inputShell input:disabled {
-  color: #71808c;
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
 .inputShell b {
   padding-right: 8px;
-  color: #657581;
+  color: var(--text-faint);
   font-size: 9px;
   font-weight: 500;
 }
 
 .weaponNote {
   margin: 13px 0 0;
-  color: #667682;
+  color: var(--text-faint);
   font-size: 8px;
   line-height: 1.6;
 }
 
 .resultHeading strong {
   padding: 6px 9px;
-  border: 1px solid #344351;
-  color: #9ba9b4;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
   font-size: 9px;
   font-weight: 600;
 }
 
 .resultHeading strong[data-winner="b"] {
-  border-color: rgb(103 232 249 / 45%);
-  color: var(--cyan);
+  border-color: var(--accent-primary-border);
+  color: var(--accent-primary);
 }
 
 .resultHeading strong[data-winner="a"] {
-  border-color: rgb(217 186 115 / 45%);
-  color: var(--gold);
+  border-color: var(--accent-secondary-border);
+  color: var(--accent-secondary);
 }
 
 .resultGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(390px, 0.9fr);
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
   align-items: center;
   margin-top: 18px;
 }
@@ -299,13 +346,18 @@
 
 .deltaRow {
   display: grid;
-  grid-template-columns: minmax(135px, 0.8fr) minmax(160px, 1fr) minmax(110px, auto);
-  gap: 13px;
+  grid-template-columns: minmax(90px, 1fr) auto;
+  gap: 9px;
   align-items: center;
   min-height: 66px;
   padding: 10px 12px;
-  border: 1px solid #293641;
-  background: rgb(4 8 12 / 46%);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-translucent);
+}
+
+.deltaTrack {
+  grid-column: 1 / -1;
+  grid-row: 2;
 }
 
 .deltaLabel,
@@ -315,14 +367,14 @@
 }
 
 .deltaLabel span {
-  color: #dbe5ea;
+  color: var(--text-default);
   font-size: 11px;
   font-weight: 600;
 }
 
 .deltaLabel small,
 .deltaValue small {
-  color: #62727f;
+  color: var(--text-faint);
   font-size: 8px;
   font-variant-numeric: tabular-nums;
 }
@@ -330,7 +382,7 @@
 .deltaTrack {
   position: relative;
   height: 8px;
-  background: #151e27;
+  background: var(--surface-2);
 }
 
 .deltaCenter {
@@ -339,7 +391,7 @@
   bottom: -3px;
   left: 50%;
   width: 1px;
-  background: #485664;
+  background: var(--border-strong);
 }
 
 .deltaFill {
@@ -347,19 +399,19 @@
   top: 1px;
   bottom: 1px;
   left: 50%;
-  background: var(--cyan);
+  background: var(--accent-primary);
 }
 
 .deltaRow[data-direction="negative"] .deltaFill {
   right: 50%;
   left: auto;
-  background: var(--gold);
+  background: var(--accent-secondary);
 }
 
 .deltaRow[data-direction="neutral"] .deltaFill {
   width: 2px !important;
   transform: translateX(-1px);
-  background: #697986;
+  background: var(--text-muted);
 }
 
 .deltaValue {
@@ -367,17 +419,17 @@
 }
 
 .deltaValue strong {
-  color: var(--cyan);
+  color: var(--accent-primary);
   font-size: 15px;
   font-variant-numeric: tabular-nums;
 }
 
 .deltaRow[data-direction="negative"] .deltaValue strong {
-  color: var(--gold);
+  color: var(--accent-secondary);
 }
 
 .deltaRow[data-direction="neutral"] .deltaValue strong {
-  color: #9aa9b4;
+  color: var(--text-muted);
 }
 
 .slopeFigure {
@@ -389,24 +441,24 @@
 .slopeChart {
   display: block;
   width: 100%;
-  min-width: 420px;
+  min-width: 280px;
   height: auto;
 }
 
 .axisLine {
-  stroke: #34404c;
+  stroke: var(--chart-axis);
   stroke-dasharray: 3 5;
 }
 
 .axisLabel,
 .chartLabel {
-  fill: #6f7e8a;
+  fill: var(--chart-label);
   font-family: inherit;
   font-size: 9px;
 }
 
 .chartLabel {
-  fill: #8b9aa5;
+  fill: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -415,15 +467,14 @@
   min-height: 180px;
   place-items: center;
   padding: 20px;
-  border: 1px dashed #31404d;
-  color: #71808c;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-muted);
   font-size: 10px;
   text-align: center;
 }
 
 @media (max-width: 1100px) {
-  .buildGrid,
-  .resultGrid {
+  .buildGrid {
     grid-template-columns: 1fr;
   }
 }

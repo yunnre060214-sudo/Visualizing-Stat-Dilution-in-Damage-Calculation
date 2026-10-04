@@ -90,10 +90,12 @@ describe("App", () => {
     window.history.replaceState(null, "", `/?config=${encoded}`);
 
     render(<App />);
+    await user.click(screen.getByRole("tab", { name: "B 面板参数" }));
     await user.clear(screen.getByLabelText("B 面板攻击"));
     await user.type(screen.getByLabelText("B 面板攻击"), "2400");
     await user.click(screen.getByRole("button", { name: /伤害工作台/ }));
     await user.click(screen.getByRole("button", { name: /配装对比/ }));
+    await user.click(screen.getByRole("tab", { name: "B 面板参数" }));
 
     expect(screen.getByLabelText("B 面板攻击")).toHaveValue("2400");
   });
