@@ -1,0 +1,33 @@
+{
+  "ItemId": 21010036,
+  "WeaponName": "焰痕",
+  "QualityId": 5,
+  "WeaponType": 1,
+  "WeaponTypeName": "长刃",
+  "Icon": "https://api.encore.moe/resource/flame-mark.webp",
+  "ResonName": "闪耀星火",
+  "Desc": "攻击提升12%/15%/18%/21%/24%。",
+  "DescParams": [
+    { "ArrayString": ["12%", "15%", "18%", "21%", "24%"] },
+    { "ArrayString": ["24%", "30%", "36%", "42%", "48%"] }
+  ],
+  "ResonLevelLimit": 5,
+  "Properties": [
+    {
+      "Name": "攻击",
+      "BaseValue": 47,
+      "GrowthValues": [
+        { "Level": 1, "Value": "47.00" },
+        { "Level": 90, "Value": "587.50" }
+      ]
+    },
+    {
+      "Name": "暴击伤害",
+      "BaseValue": 1080,
+      "GrowthValues": [
+        { "Level": 1, "Value": "10.80%" },
+        { "Level": 90, "Value": "48.60%" }
+      ]
+    }
+  ]
+}

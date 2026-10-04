@@ -1,0 +1,311 @@
+.lab {
+  display: grid;
+  gap: 16px;
+}
+
+.invalidNotice {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid rgb(244 114 106 / 45%);
+  color: #ffc1ba;
+  background: rgb(95 30 29 / 30%);
+  font-size: 12px;
+}
+
+.hero {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.hero h2 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 430;
+  letter-spacing: -0.05em;
+}
+
+.hero > p {
+  max-width: 490px;
+  margin: 0 0 6px;
+  color: #8997a3;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.kicker {
+  margin: 0 0 7px;
+  color: var(--cyan);
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.17em;
+}
+
+.controls,
+.chartPanel,
+.ranking {
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgb(24 32 43 / 94%), rgb(11 15 21 / 96%));
+  box-shadow: 0 22px 60px rgb(0 0 0 / 16%);
+}
+
+.controls {
+  padding: 18px 20px;
+}
+
+.controlsHeading,
+.sectionHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.controlsHeading h3,
+.sectionHeading h2 {
+  margin: 0;
+  color: #e0e8ed;
+  font-size: 17px;
+  font-weight: 570;
+  letter-spacing: -0.02em;
+}
+
+.controlsHeading > strong {
+  color: #f4f8fb;
+  font-size: 23px;
+  font-weight: 480;
+  font-variant-numeric: tabular-nums;
+}
+
+.controlsHeading > strong small {
+  color: #667582;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.controlGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(110px, 1fr));
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.controlGrid label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.controlGrid label > span:first-child {
+  color: #788691;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+.numberInput {
+  display: flex;
+  align-items: center;
+  height: 39px;
+  border: 1px solid #33404e;
+  background: #080d13;
+}
+
+.numberInput:focus-within,
+.controlGrid select:focus-visible {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgb(103 232 249 / 8%);
+}
+
+.numberInput input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 4px 8px 10px;
+  border: 0;
+  outline: 0;
+  color: #e8eff3;
+  background: transparent;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.numberInput b {
+  padding-right: 9px;
+  color: #64737f;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.controlGrid select {
+  width: 100%;
+  min-width: 0;
+  height: 39px;
+  padding: 0 8px;
+  border: 1px solid #33404e;
+  border-radius: 0;
+  outline: 0;
+  color: #dbe4ea;
+  background: #080d13;
+  font-size: 10px;
+}
+
+.budgetSource {
+  margin: 10px 0 0;
+  color: #667582;
+  font-size: 9px;
+}
+
+.analysisGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(310px, 0.75fr);
+  gap: 14px;
+  align-items: start;
+  min-width: 0;
+}
+
+.chartPanel,
+.ranking {
+  min-width: 0;
+  padding: 20px;
+}
+
+.sectionHeading > span {
+  padding-top: 3px;
+  color: #71808c;
+  font-size: 9px;
+}
+
+.chartScroller {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.chart {
+  min-width: 720px;
+  height: 440px;
+}
+
+.chartAnnotations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.chartAnnotations span {
+  padding: 5px 7px;
+  border: 1px solid #2e3a47;
+  color: #81909c;
+  font-size: 9px;
+}
+
+.denominator {
+  margin: 15px 0 18px;
+  color: #70808d;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.rankList {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rankList li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-height: 58px;
+  padding: 9px 10px;
+  border: 1px solid #2c3743;
+  background: rgb(5 9 13 / 42%);
+}
+
+.rankList li[data-best] {
+  border-color: rgb(103 232 249 / 48%);
+  background: linear-gradient(90deg, rgb(103 232 249 / 8%), transparent);
+}
+
+.rankIndex {
+  color: #4f5f6d;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.rankName,
+.rankValue {
+  display: grid;
+  gap: 3px;
+}
+
+.rankName strong,
+.rankValue strong {
+  color: #dce6ec;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.rankName small,
+.rankValue small {
+  color: #647480;
+  font-size: 8px;
+}
+
+.rankValue {
+  justify-items: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.rankList li[data-best] .rankValue strong {
+  color: var(--cyan);
+}
+
+.overflow {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  color: #f1c978;
+  font-size: 8px;
+}
+
+.sourceLine {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: #60707d;
+  font-size: 9px;
+}
+
+@media (max-width: 1180px) {
+  .controlGrid {
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+  }
+
+  .analysisGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    display: grid;
+    gap: 12px;
+  }
+
+  .controlGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chartPanel,
+  .ranking,
+  .controls {
+    padding: 16px;
+  }
+}

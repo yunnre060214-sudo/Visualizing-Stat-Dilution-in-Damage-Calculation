@@ -1,0 +1,22 @@
+{
+  "Id": 310000010,
+  "Name": "先锋幼岩",
+  "Rarity": "轻波级",
+  "RarityId": 1,
+  "Icon": "https://api.encore.moe/resource/monster-rock.webp",
+  "Properties": {
+    "LifeMax": { "Value": 129, "Name": "生命" },
+    "Atk": { "Value": 102, "Name": "攻击" },
+    "Def": { "Value": 800, "Name": "防御" },
+    "DamageResistancePhys": { "Value": 1000, "Name": "物理伤害抗性" },
+    "DamageResistanceElement1": { "Value": 1000, "Name": "冷凝伤害抗性" },
+    "DamageResistanceElement2": { "Value": 2000, "Name": "热熔伤害抗性" },
+    "DamageResistanceElement3": { "Value": 1000, "Name": "导电伤害抗性" },
+    "DamageResistanceElement4": { "Value": 1000, "Name": "气动伤害抗性" },
+    "DamageResistanceElement5": { "Value": 1000, "Name": "衍射伤害抗性" },
+    "DamageResistanceElement6": { "Value": 1000, "Name": "湮灭伤害抗性" }
+  },
+  "GrowthRates": {
+    "90": { "LifeMaxRatio": 20000, "AtkRatio": 18000, "DefRatio": 15000 }
+  }
+}

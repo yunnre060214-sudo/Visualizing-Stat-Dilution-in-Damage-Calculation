@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "3.7",
+  "fetchedAt": "2026-10-03T13:19:44.000Z",
+  "provider": {
+    "name": "encore.moe",
+    "baseUrl": "https://api-v2.encore.moe/api",
+    "language": "zh-Hans"
+  },
+  "normalizerVersion": "1",
+  "files": {
+    "characters": "characters.json",
+    "weapons": "weapons.json",
+    "echoes": "echoes.json",
+    "targets": "targets.json"
+  },
+  "counts": {
+    "characters": 64,
+    "weapons": 93,
+    "echoes": 319,
+    "targets": 310
+  },
+  "checksums": {
+    "characters": "8d8f0bbccd42bb7d117beddd6e767352e756ec542f840e8baad90f15b2b7300e",
+    "weapons": "ca9ca4a4d6dcd35a699d30e24c3e9a542c2ec6dae429c930629579671e5d6871",
+    "echoes": "a91135ad40abfc15626c61d7e9c54dbf1fca231a249194b63f6fe6f80de78dd5",
+    "targets": "7e557a83c463266e4f4b2c9dbee480f844db82f5c9d38c1336a53727cb0fd25c"
+  }
+}

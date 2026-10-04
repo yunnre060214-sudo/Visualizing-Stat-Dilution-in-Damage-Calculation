@@ -1,0 +1,33 @@
+{
+  "ItemId": 60000385,
+  "MonsterId": 6000038,
+  "MonsterName": "幼猿",
+  "QualityId": 5,
+  "PhantomType": 1,
+  "Icon": "https://api.encore.moe/resource/echo-young-ape.webp",
+  "Element": { "Id": 4, "Name": "气动" },
+  "Handbook": { "Intensity": "轻波级" },
+  "Skill": {
+    "PhantomSkillId": 200045,
+    "SkillCD": 8,
+    "DescriptionEx": "使用声骸技能，幻形为幼猿发动前扑，造成48.00%+96气动伤害。",
+    "LevelDescStrArray": [
+      { "ArrayString": ["30.00%+60", "8"] },
+      { "ArrayString": ["34.50%+69", "8"] },
+      { "ArrayString": ["39.00%+78", "8"] },
+      { "ArrayString": ["43.50%+87", "8"] },
+      { "ArrayString": ["48.00%+96", "8"] }
+    ]
+  },
+  "FetterGroupDetails": [
+    {
+      "Group": { "Id": 9, "FetterGroupName": "不绝余音" },
+      "Fetter": {
+        "Id": 17,
+        "Name": "不绝余音·两件套",
+        "EffectDescription": "攻击力提升10%",
+        "EffectDescriptionParam": ["10%"]
+      }
+    }
+  ]
+}

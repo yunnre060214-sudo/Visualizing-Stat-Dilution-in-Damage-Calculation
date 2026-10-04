@@ -1,0 +1,109 @@
+{
+  "Id": 1304,
+  "QualityId": 5,
+  "Name": { "Title": "No Description Available", "Content": "今汐" },
+  "ElementId": 5,
+  "ElementName": "衍射",
+  "WeaponType": 1,
+  "WeaponTypeName": "长刃",
+  "RoleHeadIcon": "https://api.encore.moe/resource/jinhsi.webp",
+  "Properties": [
+    {
+      "Name": "生命",
+      "BaseValue": 866,
+      "GrowthValues": [
+        { "growthId": 1, "level": 1, "value": 866 },
+        { "growthId": 96, "level": 90, "value": 10825 }
+      ]
+    },
+    {
+      "Name": "攻击",
+      "BaseValue": 33,
+      "GrowthValues": [
+        { "growthId": 1, "level": 1, "value": 33 },
+        { "growthId": 96, "level": 90, "value": 412.5 }
+      ]
+    },
+    {
+      "Name": "防御",
+      "BaseValue": 103,
+      "GrowthValues": [
+        { "growthId": 1, "level": 1, "value": 103 },
+        { "growthId": 96, "level": 90, "value": 1258.8866 }
+      ]
+    },
+    {
+      "Name": "暴击",
+      "BaseValue": 500,
+      "GrowthValues": [
+        { "growthId": 1, "level": 1, "value": "5%" },
+        { "growthId": 96, "level": 90, "value": "5%" }
+      ]
+    },
+    {
+      "Name": "暴击伤害",
+      "BaseValue": 15000,
+      "GrowthValues": [
+        { "growthId": 1, "level": 1, "value": "150%" },
+        { "growthId": 96, "level": 90, "value": "150%" }
+      ]
+    }
+  ],
+  "Skills": [
+    {
+      "SkillId": 1002003,
+      "SkillName": "月华天舞",
+      "SkillType": "共鸣技能",
+      "SkillDescribe": "造成多段衍射伤害。",
+      "SkillAttributes": [],
+      "DamageList": [
+        {
+          "EntryNumber": 1,
+          "Id": 1304200001,
+          "Type": "共鸣技能",
+          "DmgType": "Damage",
+          "PropertyName": "攻击",
+          "RateLv": [
+            "32.40%×2",
+            "34.40%×2",
+            "36.40%×2",
+            "38.40%×2",
+            "40.40%×2",
+            "42.40%×2",
+            "44.40%×2",
+            "46.40%×2",
+            "48.40%×2",
+            "50.40%×2"
+          ]
+        },
+        {
+          "EntryNumber": 2,
+          "Id": 1304200002,
+          "Type": "共鸣技能",
+          "DmgType": "Damage",
+          "PropertyName": "攻击",
+          "RateLv": [
+            "6.99%+10.48%",
+            "7.20%+10.80%",
+            "7.40%+11.10%",
+            "7.60%+11.40%",
+            "7.80%+11.70%",
+            "8.00%+12.00%",
+            "8.20%+12.30%",
+            "8.40%+12.60%",
+            "8.60%+12.90%",
+            "8.80%+13.20%"
+          ]
+        },
+        {
+          "EntryNumber": 3,
+          "Id": 1304200003,
+          "Type": "特殊",
+          "DmgType": "Damage",
+          "PropertyName": "攻击",
+          "RateLv": ["根据特殊状态变化"]
+        }
+      ]
+    }
+  ]
+}
