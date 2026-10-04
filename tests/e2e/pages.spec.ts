@@ -31,7 +31,7 @@ test("pages health check detects a missing stylesheet", async ({ page }) => {
 test("keeps dilution chart overflow inside its mobile scroller", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(path);
-  await page.getByRole("button", { name: /词条稀释/ }).click();
+  await page.locator('nav[data-variant="mobile"]').getByRole("button", { name: /稀释/ }).click();
   await expect(page.getByRole("img", { name: "词条投入边际收益曲线" })).toBeVisible();
 
   const documentWidth = await page.evaluate(() => ({
@@ -85,7 +85,7 @@ for (const viewport of [
 
 test("reveals and persists the next theme from the toggle origin", async ({ page }) => {
   await page.addInitScript(() => {
-    localStorage.setItem("wuwa-theme", "dark");
+    if (localStorage.getItem("wuwa-theme") === null) localStorage.setItem("wuwa-theme", "dark");
     Object.defineProperty(document, "startViewTransition", { configurable: true, value: undefined });
   });
   await page.setViewportSize({ width: 390, height: 844 });
